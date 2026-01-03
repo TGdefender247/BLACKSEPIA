@@ -3,48 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>𝐁𝐋𝐀𝐂𝐊 𝐒𝐄𝐏𝐈𝐀</title>
+<title>BLACK SEPIA</title>
+
+<!-- лёгкий CSP (не блокирует DevTools, но режет часть инъекций) -->
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self' data: blob:;
+img-src 'self' data: blob:;
+style-src 'self' 'unsafe-inline';
+script-src 'self' 'unsafe-inline';
+base-uri 'none';
+form-action 'none';
+frame-ancestors 'none';
+">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%}
+/* ====== ГЛОБАЛЬНЫЙ АНТИ-КОПИР ====== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;      /* iOS long-press */
+  -webkit-tap-highlight-color:transparent;
+}
 
-/* ================= ОСНОВА ================= */
+html,body{width:100%}
 body{
   font-family:'Share Tech Mono', monospace;
   color:#fff;
   background:#000;
 }
 
-/* ================= СЦЕНА (ДЛЯ ВСЕХ УСТРОЙСТВ) ================= */
+/* ====== СЦЕНА / ФОН ====== */
 .scene{
   position:relative;
   width:100%;
 }
 
-/* КАРТИНКА */
 .scene picture,
 .scene img{
   width:100%;
   height:auto;
   display:block;
   object-fit:contain;
+  pointer-events:none;
 }
 
-/* ЛЁГКИЙ ГРАДИЕНТ (НЕ ДУШИТ КАРТИНКУ) */
+/* очень лёгкий градиент (не душит картинку) */
 .scene::after{
   content:"";
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(ellipse at center,
-      rgba(0,0,0,.03),
-      rgba(0,0,0,.25)
-    );
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.02), rgba(0,0,0,.22));
   pointer-events:none;
 }
 
-/* ================= КОНТЕНТ ================= */
+/* ====== КОНТЕНТ ====== */
 #content{
   position:absolute;
   top:0;
@@ -59,39 +76,27 @@ body{
   text-align:center;
 }
 
-/* ================= ПАНЕЛИ ================= */
 .panel{
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(255,210,90,.6);
+  background:rgba(0,0,0,.52);
+  border:1px solid rgba(255,210,90,.65);
   border-radius:16px;
   padding:22px 20px;
   box-shadow:
-    0 0 25px rgba(255,200,80,.45),
-    inset 0 0 25px rgba(255,200,80,.15);
+    0 0 26px rgba(255,200,80,.45),
+    inset 0 0 22px rgba(255,200,80,.12);
 }
 
-/* ================= НЕОН ТЕКСТ ================= */
-h1{
-  font-size:2rem;
-  letter-spacing:1px;
-  color:#ffd86b;
-  text-shadow:
-    0 0 6px #ffd86b,
-    0 0 18px #ffb700,
-    0 0 38px #ff9900;
+/* ====== CANVAS-ТЕКСТ (НЕ ВЫДЕЛЯЕТСЯ) ====== */
+.canvas-wrap{
+  width:100%;
+}
+canvas{
+  width:100%;
+  height:auto;
+  display:block;
 }
 
-.futuristic-text{
-  font-size:1.05rem;
-  line-height:1.6;
-  white-space:pre-line;
-  color:#fff6d5;
-  text-shadow:
-    0 0 4px #ffd86b,
-    0 0 14px #ffb700;
-}
-
-/* ================= КНОПКИ ================= */
+/* ====== КНОПКИ (ЯРКИЙ НЕОН) ====== */
 #container{
   display:flex;
   flex-wrap:wrap;
@@ -102,26 +107,20 @@ h1{
 button{
   min-width:170px;
   padding:16px 26px;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.62);
   border:2px solid #ffd86b;
   border-radius:14px;
   color:#fff;
   font-weight:900;
   letter-spacing:.6px;
   cursor:pointer;
-  text-shadow:
-    0 0 4px #ffd86b,
-    0 0 12px #ffb700;
-  box-shadow:
-    0 0 18px rgba(255,216,107,.7),
-    0 0 36px rgba(255,183,0,.45);
-  transition:.2s;
+  text-shadow:0 0 4px #ffd86b, 0 0 12px #ffb700;
+  box-shadow:0 0 18px rgba(255,216,107,.75), 0 0 42px rgba(255,183,0,.55);
+  transition:.18s;
 }
 button:hover{
-  background:rgba(255,216,107,.2);
-  box-shadow:
-    0 0 28px rgba(255,216,107,1),
-    0 0 60px rgba(255,183,0,.85);
+  background:rgba(255,216,107,.18);
+  box-shadow:0 0 30px rgba(255,216,107,1), 0 0 68px rgba(255,183,0,.9);
 }
 button:disabled,
 button.locked{
@@ -131,35 +130,17 @@ button.locked{
   filter:grayscale(1);
 }
 
-/* ================= КРАСНЫЙ НЕОН (ПОД КНОПКАМИ) ================= */
-.telegram-warning{
-  margin-top:28px;
-  font-size:1.2rem;
-  font-weight:900;
-  text-transform:uppercase;
-  color:#ff4b4b;
-  text-shadow:
-    0 0 6px #ff4b4b,
-    0 0 18px #ff0000,
-    0 0 36px #b00000;
-}
-
-/* ================= СООБЩЕНИЕ ================= */
+/* сообщение */
 #tg-msg{
   display:none;
   margin-top:16px;
   font-weight:900;
   color:#ff4b4b;
-  text-shadow:
-    0 0 6px #ff4b4b,
-    0 0 18px #ff0000,
-    0 0 36px #b00000;
+  text-shadow:0 0 6px #ff4b4b, 0 0 18px #ff0000, 0 0 36px #b00000;
 }
 
-/* ================= МОБИЛКА ================= */
+/* мобилка */
 @media (max-width:420px){
-  h1{font-size:1.7rem}
-  .futuristic-text{font-size:1rem}
   button{min-width:150px}
 }
 </style>
@@ -167,49 +148,258 @@ button.locked{
 
 <body>
 
-<!-- ================= СЦЕНА С АВТОВЫБОРОМ КАРТИНКИ ================= -->
 <div class="scene">
   <picture>
-    <!-- 📱 телефон -->
+    <!-- телефон -->
     <source media="(max-width:768px)" srcset="matrix-bg.png">
-    <!-- 💻 ПК / ноут -->
-    <img src="matrix-bg1.png" alt="BLACK SEPIA">
+    <!-- ПК/ноут/планшет -->
+    <img src="matrix-bg2.png" alt="BLACK SEPIA">
   </picture>
 
-  <!-- ================= КОНТЕНТ ================= -->
   <div id="content">
 
     <div class="panel">
-      <h1>𝐁𝐋𝐀𝐂𝐊 𝐒𝐄𝐏𝐈𝐀</h1>
-      <p class="futuristic-text">
-Чёрный флаг уже поднят.
-Лучшее качество на нашем борту — доступно тем, кто готов взять.
-Капитан лично закрывает любые вопросы — быстро и без лишних слов.
-Для новоприбывших действуют особые условия.
-Мы идём на всех парусах — в каждую гавань, без остановок.
-      </p>
+      <div class="canvas-wrap">
+        <canvas id="cTitle" aria-label="BLACK SEPIA"></canvas>
+      </div>
+      <div class="canvas-wrap" style="margin-top:10px;">
+        <canvas id="cText" aria-label="Описание"></canvas>
+      </div>
     </div>
 
     <div class="panel">
-
       <div id="container"></div>
 
-      <p class="telegram-warning">
-КРИСТАЛЛ, МУР, НАТУР, КОЛЁСА, ШОКОЛАД, ПУДРА
-      </p>
+      <div class="canvas-wrap" style="margin-top:22px;">
+        <canvas id="cWarn" aria-label="Список"></canvas>
+      </div>
 
       <div id="tg-msg">
 ❌ Telegram Desktop не установлен<br><br>
 ⚠️ Для доступа необходимо установить Telegram Desktop<br>
 Переход через браузер запрещён
       </div>
-
     </div>
 
   </div>
 </div>
 
 <script>
+/* ===================== ЖЁСТКИЙ АНТИ-КОПИР ===================== */
+(function antiCopy(){
+  const block = (e)=>{ e.preventDefault(); e.stopPropagation(); return false; };
+
+  // запрет контекстного меню/drag/selection
+  document.addEventListener('contextmenu', block, {capture:true});
+  document.addEventListener('dragstart', block, {capture:true});
+  document.addEventListener('selectstart', block, {capture:true});
+
+  // запрет копи/вырез/встав
+  ['copy','cut','paste'].forEach(ev=>{
+    document.addEventListener(ev, block, {capture:true});
+  });
+
+  // запрет long-press меню на iOS/Android (частично)
+  document.addEventListener('touchstart', function(e){
+    if(e.touches && e.touches.length>1) block(e);
+  }, {passive:false, capture:true});
+
+  // запрет горячих клавиш
+  document.addEventListener('keydown', function(e){
+    const k = (e.key||'').toLowerCase();
+    const ctrl = e.ctrlKey || e.metaKey;
+
+    // Ctrl/Cmd + (C, A, S, U, P, X, V, I, J, K)
+    if(ctrl && ['c','a','s','u','p','x','v','i','j','k'].includes(k)) return block(e);
+
+    // F12
+    if(e.key === 'F12') return block(e);
+
+    // Ctrl+Shift+I/J/C (DevTools)
+    if(e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) return block(e);
+
+    // Cmd+Opt+I/J (mac)
+    if(e.metaKey && e.altKey && ['i','j'].includes(k)) return block(e);
+  }, {capture:true});
+})();
+
+/* ===================== MAX ANTI-DEVTOOLS (DETERRENCE) ===================== */
+(function antiDevTools(){
+  let killed = false;
+
+  function kill(){
+    if(killed) return;
+    killed = true;
+    try{ document.documentElement.innerHTML = ''; }catch(_){}
+    try{ window.stop && window.stop(); }catch(_){}
+    try{ location.replace('about:blank'); }catch(_){}
+  }
+
+  // 1) детект по размерам окна (Docked DevTools)
+  const TH = 160;
+  setInterval(()=>{
+    const dw = Math.abs(window.outerWidth - window.innerWidth);
+    const dh = Math.abs(window.outerHeight - window.innerHeight);
+    if(dw > TH || dh > TH) kill();
+  }, 400);
+
+  // 2) timing по debugger (если консоль/брейк активируется)
+  setInterval(()=>{
+    const t0 = performance.now();
+    debugger; // при открытых DevTools часто даёт задержку
+    const t1 = performance.now();
+    if((t1 - t0) > 120) kill();
+  }, 900);
+
+  // 3) console-probe: getter срабатывает при открытой консоли (Chrome/некоторые)
+  try{
+    const img = new Image();
+    Object.defineProperty(img, 'id', { get(){ kill(); } });
+    setInterval(()=>{ console.log(img); console.clear(); }, 1200);
+  }catch(_){}
+
+  // 4) попытка “забить” console
+  try{
+    ['log','warn','info','error','debug'].forEach(m=>{
+      console[m] = function(){};
+    });
+  }catch(_){}
+})();
+
+/* ===================== CANVAS РЕНДЕР ТЕКСТА ===================== */
+(function canvasText(){
+  // Текст хранится в JS => полностью скрыть от DevTools невозможно,
+  // но копирование мышью/выделением/обычным способом — не работает.
+  const TITLE = "BLACK SEPIA";
+  const BODY = [
+    "Чёрный флаг уже поднят.",
+    "Лучшее качество на нашем борту — доступно тем, кто готов взять.",
+    "Капитан лично закрывает любые вопросы — быстро и без лишних слов.",
+    "Для новоприбывших действуют особые условия.",
+    "Мы идём на всех парусах — в каждую гавань, без остановок."
+  ];
+  const WARN = "КРИСТАЛЛ, МУР, НАТУР, КОЛЁСА, ШОКОЛАД, ПУДРА";
+
+  function setupCanvas(c){
+    const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const w = Math.min(760, Math.max(320, document.getElementById('content').clientWidth));
+    c.width = Math.floor(w * ratio);
+    c.height = Math.floor(1 * ratio); // потом выставим
+    c.style.width = w + "px";
+    return {ctx: c.getContext('2d'), ratio, w};
+  }
+
+  function drawNeonText(ctx, x, y, text, fontPx, color, glow1, glow2, align='center'){
+    ctx.font = 900 ${fontPx}px Share Tech Mono, monospace;
+    ctx.textAlign = align;
+    ctx.textBaseline = 'top';
+
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = glow1;
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
+
+    ctx.shadowBlur = 38;
+    ctx.shadowColor = glow2;
+    ctx.fillText(text, x, y);
+
+    ctx.shadowBlur = 0;
+  }
+
+  function wrapLines(ctx, text, maxWidth){
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    for(const w of words){
+      const test = line ? (line + ' ' + w) : w;
+      if(ctx.measureText(test).width <= maxWidth){
+        line = test;
+      }else{
+        if(line) lines.push(line);
+        line = w;
+      }
+    }
+    if(line) lines.push(line);
+    return lines;
+  }
+
+  function render(){
+    // TITLE
+    const cTitle = document.getElementById('cTitle');
+    const t = setupCanvas(cTitle);
+    const ctxT = t.ctx;
+    ctxT.setTransform(t.ratio,0,0,t.ratio,0,0);
+    ctxT.clearRect(0,0,t.w,200);
+
+    const titleFont = (t.w < 420) ? 34 : 42;
+    cTitle.height = Math.floor((titleFont + 20) * t.ratio);
+    ctxT.setTransform(t.ratio,0,0,t.ratio,0,0);
+    drawNeonText(ctxT, t.w/2, 6, TITLE, titleFont, '#ffd86b', '#ffb700', '#ff9900');
+
+    // BODY
+    const cText = document.getElementById('cText');
+    const b = setupCanvas(cText);
+    const ctxB = b.ctx;
+    const baseFont = (b.w < 420) ? 16 : 17;
+    ctxB.setTransform(b.ratio,0,0,b.ratio,0,0);
+    ctxB.font = 700 ${baseFont}px Share Tech Mono, monospace;
+
+    const maxW = b.w - 22;
+    const lines = [];
+    BODY.forEach(p=>{
+      lines.push(...wrapLines(ctxB, p, maxW));
+      lines.push(''); // пустая строка между абзацами
+    });
+
+    const lineH = Math.round(baseFont * 1.55);
+    const totalH = Math.max(80, (lines.length * lineH) + 10);
+    cText.height = Math.floor(totalH * b.ratio);
+
+    ctxB.setTransform(b.ratio,0,0,b.ratio,0,0);
+    ctxB.clearRect(0,0,b.w,totalH);
+
+    let y = 0;
+    for(const ln of lines){
+      if(!ln){ y += Math.round(lineH*0.6); continue; }
+      ctxB.shadowBlur = 10;
+      ctxB.shadowColor = 'rgba(255,183,0,.65)';
+      ctxB.fillStyle = '#fff6d5';
+      ctxB.textAlign = 'left';
+      ctxB.textBaseline = 'top';
+      ctxB.fillText(ln, 11, y);
+      y += lineH;
+    }
+    ctxB.shadowBlur = 0;
+
+    // WARN
+    const cWarn = document.getElementById('cWarn');
+    const w = setupCanvas(cWarn);
+    const ctxW = w.ctx;
+    const warnFont = (w.w < 420) ? 16 : 18;
+
+    cWarn.height = Math.floor((warnFont + 24) * w.ratio);
+    ctxW.setTransform(w.ratio,0,0,w.ratio,0,0);
+    ctxW.clearRect(0,0,w.w,120);
+
+    ctxW.font = 900 ${warnFont}px Share Tech Mono, monospace;
+    ctxW.textAlign = 'center';
+    ctxW.textBaseline = 'top';
+    ctxW.fillStyle = '#ff4b4b';
+    ctxW.shadowBlur = 16;
+    ctxW.shadowColor = '#ff0000';
+    ctxW.fillText(WARN, w.w/2, 6);
+    ctxW.shadowBlur = 34;
+    ctxW.shadowColor = '#b00000';
+    ctxW.fillText(WARN, w.w/2, 6);
+    ctxW.shadowBlur = 0;
+  }
+
+  window.addEventListener('resize', ()=>{ try{ render(); }catch(_){} });
+  window.addEventListener('load', ()=>{ try{ render(); }catch(_){} });
+  try{ render(); }catch(_){}
+})();
+
+/* ===================== TELEGRAM (КАК БЫЛО) ===================== */
 function isDesktop(){
   const ua=navigator.userAgent.toLowerCase();
   return /(windows|mac os|linux)/.test(ua) &&
@@ -225,12 +415,10 @@ function lockAllButtons(){
 }
 
 function buildTGJoin(inv){
-  return ['t','g',':','/','/','j','o','i','n','?','i','n','v','i','t','e','='].join('')
-       + inv.join('');
+  return ['t','g',':','/','/','j','o','i','n','?','i','n','v','i','t','e','='].join('') + inv.join('');
 }
 function buildTGResolve(name){
-  return ['t','g',':','/','/','r','e','s','o','l','v','e','?','d','o','m','a','i','n','='].join('')
-       + name;
+  return ['t','g',':','/','/','r','e','s','o','l','v','e','?','d','o','m','a','i','n','='].join('') + name;
 }
 
 const INVITES={
@@ -252,7 +440,7 @@ function openTG(link){
   window.location.href=link;
 
   if(isDesktop()){
-    setTimeout(()=>msg.style.display='block',1200);
+    setTimeout(()=>{ msg.style.display='block'; },1200);
   }
 }
 
