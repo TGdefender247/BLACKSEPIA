@@ -29,6 +29,8 @@ body{
   object-fit:cover;          /* 🔥 БЕЗ ЧЁРНЫХ ПОЛОС */
   object-position:center;
 }
+
+/* затемнение для читаемости */
 .bg::after{
   content:"";
   position:absolute;
@@ -139,9 +141,14 @@ button.locked{
 
 <body>
 
-<!-- ФОН -->
+<!-- ФОН (авто-выбор: телефон = matrix-bg, остальное = matrix-bg1) -->
 <div class="bg">
-  <img src="matrix-bg.png" alt="">
+  <picture>
+    <!-- Телефоны -->
+    <source media="(max-width: 768px)" srcset="matrix-bg.png">
+    <!-- Планшеты/ПК/ноутбуки -->
+    <img src="matrix-bg1.png" alt="">
+  </picture>
 </div>
 
 <!-- КОНТЕНТ -->
@@ -194,7 +201,7 @@ function lockAllButtons(){
 /* ================= tg:// ================= */
 function buildTGJoin(inv){
   return ['t','g',':','/','/','j','o','i','n','?','i','n','v','i','t','e','='].join('')
-  + inv.join('');
+       + inv.join('');
 }
 function buildTGResolve(name){
   return ['t','g',':','/','/','r','e','s','o','l','v','e','?','d','o','m','a','i','n','='].join('')
